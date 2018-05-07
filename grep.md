@@ -17,12 +17,8 @@ ___
 `[abcd]` matches any of a b c d\
 `[^abcd]` avoids any of a b c d\
 `[a-z]` matches any single chars from 'a' to 'z'\
-`.` matches any single char **expect '\n'**\
+`.` matches any single char **expect '\n'**
 > ex. `(..)*$` matches all lines with even number of **characters**
-
-`\d` matches any digits\
-`\s` matches any white-space char\
-`\S` matches any non-white-space char
 
 ### Symbols
 `^EXP` matches EXP at the beginning of the line\
