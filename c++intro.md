@@ -63,6 +63,27 @@ int main() {
   }
 }
 ```
+```c++
+#include <iostream>
+using namespace std;
+
+int main () { //reads all integers and echo to stdout until EOF, skip non-integer inputs 
+  int i;
+  while (true) {
+    if (!(cin >> i)) {
+      if (cin.eof()) break;
+      else {
+        cin.clear(); //clear error history
+        cin.ignore(); //ignore the current character
+      }
+    }
+    else {
+      cout << i << endl;
+    }
+  }
+}
+```
+
 
 ---
 
