@@ -28,64 +28,7 @@ int main () {
 * `using namespace std` &nbsp;&nbsp; lets you say `cout` instead of `std::cout`
 * by default, main returns 0
 ---
-## Input and Output
-_We have 3 I/O streams:_
-* cout: printing to stdout (default is screen)
-* cin: reading from stdin (default is keyboard)
-* cerr: pringing to stderr (defualt is screen)  
 
-_I/O operations:_  
-
-`<<` means "put to"
-```c
-cout << x  
-cerr << "error ...."
-```
-`>>` means "get from"  
-
-```c
-cin >> i
-```
-
-If the read fails; `cin.fail()` will be true  
-If EOF, `cin.eof()` and `cin.fail()` will be both true  
->There is an implicit conversion from cin to bool. `cin` is regarded as true unless it fails. Thus we can use `cin` as a condition.
-
-**Example:**  
-```c
-#include <iostream>
-using namespace std;
-
-int main() {
-  int i;
-  while (!(cin >> i)) {
-    cout << i << endl;
-  }
-}
-```
-```c++
-#include <iostream>
-using namespace std;
-
-int main () { //reads all integers and echo to stdout until EOF, skip non-integer inputs 
-  int i;
-  while (true) {
-    if (!(cin >> i)) {
-      if (cin.eof()) break;
-      else {
-        cin.clear(); //clear error history
-        cin.ignore(); //ignore the current character
-      }
-    }
-    else {
-      cout << i << endl;
-    }
-  }
-}
-```
-
-
----
 
 ## Loops:
 
