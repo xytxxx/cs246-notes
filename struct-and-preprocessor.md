@@ -60,7 +60,7 @@ int main () {
 ## Module:
 \#include \<iostream>  
 `#include "xxx.yyy" `  
-`#include </....../...../xxx>` include a standart library by absolute path  
+`#include </....../...../xxx>` include a standard library by absolute path  
 `#include "/..../xxx.yyy"` **INVALID**
 
 ## Variable:

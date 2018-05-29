@@ -59,3 +59,20 @@ Finally, we link the files:
 `g++14 -c vector.cc`  
 `g++14 vector.o main.o`
 
+## ! If we add a global vartiable in interface:  
+`int global = 10`  
+Then each time you complie a .cc that includes the interface, you define the variable global one time. Then we define it multiple times. So we need to: 
+`extern int global;`  
+and in main.cc:  
+`global = 100;`
+
+Another approach:   
+**prevent the interface file from being included more than once:**
+```c++
+//vector.h
+#ifndef _VEC_H_
+#define _VEC_H_
+    ....
+    ....
+    ....
+#endif
