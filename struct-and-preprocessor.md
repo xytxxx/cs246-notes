@@ -64,7 +64,8 @@ int main () {
 `#include "/..../xxx.yyy"` **INVALID**
 
 ## Variable:
-`#define x 100` **Discouraged**
+`#define x 100` **Discouraged**  
+`#define VAR var`
 
 ## Codes:
 ```c
@@ -96,4 +97,4 @@ while (x<10){
 ```
 this will only print x if we compile in this way:  
 `g++14 -DDEBUG -Dvar2 -Dvar3 main.cc` (-D)
-    
+

@@ -20,7 +20,7 @@ int main() {
 Formally, methods take a hidden extra parameter **this**, which is a pointer to the oberct upon which the method was invoked.    
 The following code defines a **constructor** for Student:
 ```c++
-Student (int assign, int mt, int final) {
+Student (int assign, int mt, int final) { //same name with the class
     this -> assign = assign;
     this -> mt = mt;
     this -> final = final;
