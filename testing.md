@@ -20,3 +20,9 @@
 **Black box testing**: testing before knowing how program works  
 **White box testing**: all of the logical paths has been run at least once  
 **Grey box testing**: testing with part of knowledge of program implementation  
+
+## Terminalogy:
+* **Fault**: root problem  
+* **Error**: incorrect program state   
+* **Failure**: observable incorrect behnavior
+
