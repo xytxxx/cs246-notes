@@ -60,11 +60,12 @@ int main () {
 ## Module:
 \#include \<iostream>  
 `#include "xxx.yyy" `  
-`#include </....../...../xxx>` include a standart library by absolute path  
+`#include </....../...../xxx>` include a standard library by absolute path  
 `#include "/..../xxx.yyy"` **INVALID**
 
 ## Variable:
-`#define x 100` **Discouraged**
+`#define x 100` **Discouraged**  
+`#define VAR var`
 
 ## Codes:
 ```c
@@ -96,4 +97,4 @@ while (x<10){
 ```
 this will only print x if we compile in this way:  
 `g++14 -DDEBUG -Dvar2 -Dvar3 main.cc` (-D)
-    
+

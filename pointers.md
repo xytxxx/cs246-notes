@@ -41,5 +41,8 @@ struct Node {
     Node *next;
 }
 Node *np = new Node; //np allocated in the stack, Node is allocated in heap (NEED FREE)
+int *px = new int{5}; //allocate and initialize in one line
+int *arr = new int[10]; //allocate 40 bytes 
+delete[] arr; //free 40 bytes
 delete np; //free (np)
 ```
