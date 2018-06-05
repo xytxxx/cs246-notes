@@ -19,7 +19,7 @@ int main() {
 ```
 Formally, methods take a hidden extra parameter **this**, which is a pointer to the oberct upon which the method was invoked. 
 
-## Constructors   
+## Constructors <a id="default"></a>
 The following code defines a **constructor** for Student:
 ```c++
 Student (int assign = 0, int mt=0, int final=0) { //same name with the class
@@ -61,14 +61,14 @@ struct Student {
 ```
 # Every class comes with:
 
-* a default constructor
-* a copy constructor
-* a copy of assigment operator
-* a deconstructor
-* a move consturctor 
+* [a default constructor](#default)
+* [a copy constructor](#copy)
+* [a copy assigment operator](#copy_ass)
+* [a deconstructor](#destroy)
+* [a move consturctor](#move) 
 * a move assignment operator
 
-## Copy constructor:
+## Copy constructor: <a id = "copy"></a>
 `int x = 5, int y = x`   
 the second `=` is a copy constructor: it copys the value of x and constructs y.   
 
@@ -123,3 +123,66 @@ The copy construtor is called when:
 * an object is initialized by another object
 * an object is passed by value
 * an object is returned by a function
+
+## Deconstructor <a id = "destroy"></a>
+
+When an object is destroyed, a method called the destructor runs:   
+1. the body of destructor runs
+2. destructors are invoked for each field that is an object in reverse declearation order
+3. space is deallocated   
+
+We define a destructor for Node:  
+```c++
+~Node() {
+    {delete next;}
+}
+```
+
+
+## Copy Assignemnt Operator <a id="copy_ass"></a>
+```c++
+Node a{1,nullptr};
+Node b{2,&a};
+b = a;  //copy assignment operator
+```
+To overload the copy assignment operator:  
+```c
+Node &operator=(constant Node &other){
+    if (&other == this){
+        return *this;      //self assignment
+    }
+    Node *temp = next;
+    next = other.next? new Node(*other.next): nullptr;
+    delete temp;      //if this is invoked, this is already defined.    
+    data = other.data;   //doing delete and reassigning after we secure copying. 
+    return *this;
+}
+```
+
+**copy and swap idiom**:  
+```c++
+void swap(Node &other)
+  {using std::swap;
+   swap (data, other.data);
+   swap (data, other.next); }
+
+Node &operator=(const Node &other){
+    Node *temp = other;
+    swap(temp);
+    return *this;
+}
+```
+
+## Move constructor <a id="move"></a>
+
+> if we do `Node m3 = function(n);`  
+the compiler would move the result of function(n) to stack and then call copy constructor. That would be waster of memory.  
+We need a move constructor.
+
+```c++
+Node(Node &&other):
+    data{other.data},
+    next{other.next} 
+    {
+    other.next=nullptr;  //otherwise when popout, other.next will be destroyed
+}
