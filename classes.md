@@ -66,7 +66,7 @@ struct Student {
 * [a copy assigment operator](#copy_ass)
 * [a deconstructor](#destroy)
 * [a move consturctor](#move) 
-* [a move assignment operator](#move_ass)
+* a move assignment operator
 
 ## Copy constructor: <a id = "copy"></a>
 `int x = 5, int y = x`   
@@ -137,6 +137,15 @@ We define a destructor for Node:
     {delete next;}
 }
 ```
+> we can add methods to class outside the class definition:  
+>```c++
+>struct Node {
+>    .....
+>}
+>Node :: methodOfNode(){
+>    ......
+>}
+>```
 
 
 ## Copy Assignemnt Operator <a id="copy_ass"></a>
