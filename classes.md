@@ -66,7 +66,7 @@ struct Student {
 * [a copy assigment operator](#copy_ass)
 * [a deconstructor](#destroy)
 * [a move consturctor](#move) 
-* a move assignment operator
+* [a move assignment operator](#move_ass)
 
 ## Copy constructor: <a id = "copy"></a>
 `int x = 5, int y = x`   
@@ -180,9 +180,54 @@ the compiler would move the result of function(n) to stack and then call copy co
 We need a move constructor.
 
 ```c++
-Node(Node &&other):
+Node(Node &&other): 
     data{other.data},
     next{other.next} 
     {
     other.next=nullptr;  //otherwise when popout, other.next will be destroyed
 }
+```
+## Move Assignment operator <a id="move_ass"></a>
+```c++
+Node &operator=(Node &&other){  //&&other means an R-value
+    using std::swap;
+    swap(data,other.data);
+    swap(next,orher.next);   //job done
+    return *this;     //make x=y=z possible
+}
+```
+
+# Elision - Constructors:
+```c++
+struct Vec {
+    int x,y;
+}
+Vec makeAVec(){
+    return {0,0};   //default constructor
+}
+
+int main(){
+    Vec v = makeAvec();   //should be move constructor, but compiler is smart, so {0,0} will be directly pushed to v. To avoid this, use g++ -fno-elision-constructors. 
+}
+```
+# Other operators
+```c++
+sturct Vec{
+    int x, y;
+    Vec operator+(const Vec &other){
+        return {x+other.x, y+other.y};
+    }
+    Vec operator*(const int k){   //handles v*9
+        return {x*k, y*k};
+    }
+}
+Vec operator*(const int k, const Vec &v){  //handles 1*v
+    return v*k;
+}
+```
+Operator that can only be members:
+* operator=
+* operator[]
+* operator->
+* operator()
+* operatorT
