@@ -147,7 +147,7 @@ b = a;  //copy assignment operator
 ```
 To overload the copy assignment operator:  
 ```c
-Node &operator=(constant Node &other){
+Node &operator=(const Node &other){
     if (&other == this){
         return *this;      //self assignment
     }
