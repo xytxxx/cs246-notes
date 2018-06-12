@@ -206,7 +206,7 @@ Node &operator=(Node &&other){  //&&other means an R-value
 }
 ```
 
-# Elision - Constructors:
+## Elision - Constructors:
 ```c++
 struct Vec {
     int x,y;
@@ -219,7 +219,7 @@ int main(){
     Vec v = makeAvec();   //should be move constructor, but compiler is smart, so {0,0} will be directly pushed to v. To avoid this, use g++ -fno-elision-constructors. 
 }
 ```
-# Other operators
+## Other operators
 ```c++
 sturct Vec{
     int x, y;
@@ -240,3 +240,70 @@ Operator that can only be members:
 * operator->
 * operator()
 * operatorT
+
+## Mutable and Class-wide variables
+we can define certain fields "mutable":
+```c++
+struct Student{
+    int grade;
+    mutable int num = 0;
+    static int numStudents;    //shared among all instances of Student
+    void increment() const {
+        ++num;                 //possble even with "const"
+        return num;
+    }
+    static void printNum(){    //static methods dont dependo n a specific object, they do not have implicit "this"
+        cout << num << endl;
+    }
+    Student(int x){
+        grade = x;
+        num++;
+    }
+}
+int Student:: num = 0;         //static variables are initiated outside the class
+int main() {
+    Student a{1};
+    Student b{2};
+    Student:: printNum();
+}
+```
+
+Static members must be defined outside the class.  
+
+## Wrapper class
+```c++
+//node.cc
+class Node {
+    int data;
+    Node *next;
+public:
+    Node(int data, Node *next): data{data} next{next}{}
+    ~Node() {delete next;}     //only works if next is on heap
+}
+
+//list.h
+class List{
+    struct Node;
+    Node *theList = nullptr;
+public:
+    void addToFront(int n);
+    int ith(int i);
+    ~List();
+}
+
+//list.cc
+#include ....
+List:: ~List(){
+    delete theList;
+}
+void List:: addToEnd(int n){
+    theList = new Node{n, theList};
+}
+int List:: ith(int i){
+    Node *curr = theList;
+    for(int j = 0; j < i && curr -> next; j++){
+        curr = curr -> next;
+    }
+    return curr -> data;
+}
+```
