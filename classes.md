@@ -66,7 +66,7 @@ struct Student {
 * [a copy assigment operator](#copy_ass)
 * [a deconstructor](#destroy)
 * [a move consturctor](#move) 
-* a move assignment operator
+* [a move assignment operator](#move_ass)
 
 ## Copy constructor: <a id = "copy"></a>
 `int x = 5, int y = x`   
