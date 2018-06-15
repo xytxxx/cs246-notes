@@ -1,4 +1,4 @@
-# Classes
+# Classes <a id="classes"></a>
 
 ## What is a class?
 Let's see student.cc:
@@ -272,15 +272,6 @@ Static members must be defined outside the class.
 
 ## Wrapper class
 ```c++
-//node.cc
-class Node {
-    int data;
-    Node *next;
-public:
-    Node(int data, Node *next): data{data} next{next}{}
-    ~Node() {delete next;}     //only works if next is on heap
-}
-
 //list.h
 class List{
     struct Node;
@@ -293,10 +284,16 @@ public:
 
 //list.cc
 #include ....
+struct List:: Node {
+    int data;
+    Node *next;
+    Node(int data, Node *next): data{data} next{next}{}
+    ~Node() {delete next;}     //only works if next is on heap
+}
 List:: ~List(){
     delete theList;
 }
-void List:: addToEnd(int n){
+void List:: addToFront(int n){
     theList = new Node{n, theList};
 }
 int List:: ith(int i){
@@ -307,3 +304,60 @@ int List:: ith(int i){
     return curr -> data;
 }
 ```
+> But if we want to print the whole list, we need to call `ith()` n times, which is O(n^2). In order to do it in O(n), we need to have a **iterator**.  
+
+# Iterator <a id="iterator"></a>
+is an abstraction of an object.
+```c++
+class List{
+    struct Node;
+    Node *theList;
+    .....
+    public:
+    class Iterator {
+        
+        Node *p;
+        //need to define all following methods.
+        explicit Iterator(Node *p):p{p} {}
+        public:
+        int &operator*() {
+            return p->data;
+        }
+        Iterator &operator++(){
+            p = p->next;
+            return *this;
+        }
+        bool operator==(const Iterator &other) const {
+            return p==other.p;
+        }
+        bool operator!=(const Iterator &other) const {
+            return !(*this == other);
+        }
+        friend class List; //let List access private fields.
+    }; 
+    //these are methods of lists.
+    Iterator begin() {
+        return Itertor(theList);
+    }
+    Itertor end() {
+        return Iterator(nullptr);
+    }
+    ....
+}
+
+int main(){
+    List lst;
+    lst.addToFront(1);
+    ....
+    for(List::Iterator it = lst.begin(); it != lst.end(); ++it){
+        cout << *it << endl;
+    }
+}
+```
+If c++ can interate through a collection, we can do:
+```c++
+for (auto &n: collection){
+    ...
+}
+```
+
