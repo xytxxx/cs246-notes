@@ -60,9 +60,19 @@ class Department{  //not responsible for destroying teachers
         teachers[t-num]=t;
         t-num++;
     }
+}
+int main (){
+    Teacher *t1 = new Teacher("a");
+    Teacher *t2 = new Teacher("b");
+    {
+        Department d;
+        d.add-Teacher(t1);
+        d.add-Teacher(t2);
+    }   //outside this block, d is destroied.
+    cout << t1->getName() << endl; //still valid.
+
 
 }
-
 
 ```
 
