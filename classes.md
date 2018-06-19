@@ -360,4 +360,3 @@ for (auto &n: collection){
     ...
 }
 ```
-
