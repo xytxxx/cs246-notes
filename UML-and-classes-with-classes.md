@@ -9,7 +9,7 @@ methods <br> (optional) | +getX() integer,<br>...<br>...
 \- means private  
 \+ means public  
 
----
+# Composition "owns-a"
 ```c++
 class Vec{
     int x,y;
@@ -76,24 +76,83 @@ int main (){
 
 ```
 
+# Inheritance "is-a" <a id="inheritance"></a>
 
+```c++
+class Book {    //superclass
+    string title, author;
+    int numPages;
+public:
+    Book(string t, string a, int n);
+    bool isBig() {return numPages > 200;}
+    ....
+};
 
+class Text: public Book {  //subclass
+    string topic;
+public:
+    Text(string title, string autho, int numPages, string topic): 
+        Book{title,author,numpages}, topic{topic} {};
+    bool isBig() {return numPages > 300;} //different to isBig() in Book.
+    ...
+};
 
+class Comic: public Book { //another subclass
+    string hero;
+public:
+    Comic(...);
+    bool isBig() {return numPages > 400;} //different to isBig() in Book.
+    ...
+}
 
+int main() {
+    Book b{"","",250};
+    Comic c{"","",250,""};
+    b.isBig() //returns true;
+    c.isBig() //returns false;
+}
+```
+If the super class has no default constructor, the subclass must invoke a non-default super class constructor in the MIL.  
 
+**When a subclass is constructed:**
+1. space is allocated
+2. superclass parts are constructed
+3. fields are constructed
+4. constructor body runs
 
+Comic or Text cannot access fields of Book because of `private`. We need to use the keyword `protected`. We can even have **protected accessor and mutator**.
 
-
-
-
-
-
-
-
-
-
-
-
+If we do:
+```c++
+Book b = Comic {"", "", 40, ""};
+```
+The complier will **slice** the Comic into a Book and store it in a space of size of a Book (fourth parameter is dropped).
+```c++
+Comic c {"","",250,""};
+Book *pb = &c;
+Comic *pc = &c;
+pb -> isBig() //returns true;
+pc -> isBig() //returns false;
+```
+but if we do:
+```c++
+Class Book{
+    ...
+    virtual bool isBig(){ ...}
+};
+Class Comic: public Book{
+    ...
+    bool isBig() const override{...}
+};
+```
+Then
+```c++
+Book *myBooks[20];
+for (int i = 0; i< 20; i++){
+    cout << myBooks[i]->isBig() << endl; 
+    // this will display the correct output based on what exact type is each pointer. 
+}
+```
 
 [own]: https://upload.wikimedia.org/wikipedia/commons/9/9f/AggregationAndComposition.svg
 
