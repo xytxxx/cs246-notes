@@ -154,6 +154,78 @@ for (int i = 0; i< 20; i++){
 }
 ```
 
+# Polymorphism 
+
+```c++
+class One {
+    int x, y;
+    public:
+    One(int x = 0, int y = 0): x{x}, y{y} {}
+};
+
+class Two {
+    int z;
+    public
+    Two(int x = 0, int y = 0, int z = 0): One{x,y}, z{z} {}
+};
+
+void f(One *a){
+    a[0] = One{6,7};
+    a[1] = One{8,9};
+}
+
+int main{
+    Two myArray[2] = {{1,2,3}, {4,5,6}}; //now array is |123|456|
+    f(myArray);  //Now array is |678|956|, not good.
+```
+**Never use array of objects polymorphically, use an array of pointers instead.**
+When the object X allocates memory, be caution: if subclass Y allocates more memory, but an instance is initiallized like this:
+```c++
+X *myX = new Y {...};
+delete myX;  
+```
+will cause memory leak. We need to make the destructor of superclass **virtual**.  
+
+# Abstract class
+
+is to organise the subclasses, cannot create any instance of it. We need at least one **pure virtual** method in superclass.
+
+```c++
+class Student {
+    virtual int fees() const = 0;
+}
+Student(); // will fail.
+```
+Any subclass is also virtual unless it implements all virtual methods.
+
+# About Big 5
+```c++
+class Book {
+    //define big 5;
+};
+
+class Text: public Book {
+    string topic;
+    public:
+    Text(const Text&other): Book{other}, topic{other.topic} {}
+    Text &operator=(const Text &other) {
+        Book::operator=(other);
+        topic = other.topic;
+        return *this;
+    }
+    Text(Text &&other): Book{std::move(other)}, topic{std::move(other.topic)} {}
+    Text &operatror=(Text &&other) {
+        Book::operator=(std::move(other));
+        topic=std::move(other.topic);
+        return *this;
+    }
+}
+
+Text t {"Algorithms","CLRS", 500, "CS"};
+Text t2 = t;
+```
+**We cannot override operators. To Override, we should always define the super class abstract**
+
 [own]: https://upload.wikimedia.org/wikipedia/commons/9/9f/AggregationAndComposition.svg
 
 [has]:
