@@ -192,7 +192,7 @@ is to organise the subclasses, cannot create any instance of it. We need at leas
 
 ```c++
 class Student {
-    virtual int fees() const = 0;
+    virtual int fees() const = 0; // =0 make the method pure virtual. 
 }
 Student(); // will fail.
 ```
@@ -224,7 +224,63 @@ class Text: public Book {
 Text t {"Algorithms","CLRS", 500, "CS"};
 Text t2 = t;
 ```
-**We cannot override operators. To Override, we should always define the super class abstract**
+**We cannot override operators because that will cause mix assignement. To Override, we should always define the super class abstract**  
+
+# Abstract Type and template
+In "list.h":
+```c++
+template <typename T> class List {
+    struct Node {
+        T data;
+        Node *next;
+        Node (T data, NOde *next):data{data}, next{next}{}
+        ~Node() {delete next;}
+    };
+    Node *theList = nullptr;
+public:
+    class Iterator {
+        Node *p;
+        explicit Iterator(Node *p): p{p} {}
+    public:
+        T &opearator*() const {return p->data;}
+        Iterator operator++() {
+            p = p -> next;
+            return *this;
+        }
+        bool operator==(const Iterator &other) const {
+            return p == other.p;
+        }
+        bool operator!=(const Iterator &other) const {
+            return !(*this  == other);
+        }
+        friend class List <T>;
+    };
+    Iterator begin() {return Iterator{theList};}
+    Iterator end() {return Iterator{nullptr};}
+    void addToFront(T n) {theList = new Node(n, theList);}
+    T ith(int i) {
+        Node *cur = theList;
+        for(int j = 0; j < i && cur; ++j, cur = cur->next);
+        return cur->data;
+    }
+    ~List() {delete theList;}
+};
+```
+
+We can use the standart template library (STL), which includes a  dynamic allocated array:  
+`vector <int> v {4,5}`  
+Then  
+```c++
+v.emplace_back(6); // adds 6 to the end  
+v.erase(v.begin());  //erase the first item
+v.pop.back();    //remove the last item
+v.(v.begin()+3);  //erase the 4th item 
+v.at(i);      //return item at i  (differs to v[i]: 
+//v[i] index out of bound error terminates the program 
+//v.at(i): throws an exception, can catch)
+
+```
+
 
 [own]: https://upload.wikimedia.org/wikipedia/commons/9/9f/AggregationAndComposition.svg
 
