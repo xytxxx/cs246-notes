@@ -277,8 +277,23 @@ v.pop.back();    //remove the last item
 v.(v.begin()+3);  //erase the 4th item 
 v.at(i);      //return item at i  (differs to v[i]: 
 //v[i] index out of bound error terminates the program 
-//v.at(i): throws an exception, can catch)
+//v.at(i): throws an exception, can catch
+```
 
+More about iterator:
+---
+"abstractiterator.h":
+```c++
+template <typename T> class AbstractIterator {
+    public:
+    virtual T &operator*() const = 0;
+    virtual AbstructIteartor &operator++() = 0;
+    virtual bool operator==(const AbustractIterator &other) const =0;
+    bool operator!=(const AbstructIterator &other) const {
+        return !(*this == other);
+    }
+    virtural ~AbstructIterator() {};
+};
 ```
 
 
