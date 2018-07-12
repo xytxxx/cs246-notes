@@ -105,3 +105,51 @@ for (auto &p : m) {   //traverse all pairs by ascending order of key
     p.second; //is value of p
 }
 ```
+
+# Unique Pointer
+
+> **Stack Unwinding:** all allocated-stack data is cleaned up, dtors call, memory reclaimed.
+
+Let's look at the following code:  
+```c++
+void  f() {
+    int *p = new int {1};
+    g();
+    delete p;
+}
+```
+It will memory leak if `g()` fails because of stack rewinding.  
+We can use **smart pointer**:  
+`class std::unique_ptr <T> `   is a class that holds `T*`, and the dtor will free the heap-allocated data that the pointer is pointing at.
+
+# RAII (Resource Acquisite Is Initialization)
+
+```c++
+#include <memory>
+class Basic {
+    public:
+    int x;
+    // ctor and dtor
+}
+int main() {
+    auto bp = make_unique<Basic>(5);
+    cout << bp -> x; // outputs 5.
+
+    //==========================================
+    unique_ptr <Basic> p {new Basic{1}};
+    unique_ptr <Basic> p2 = p; 
+    // problem: if two ptrs are destroyed in order, when it comes to p2, 
+    // it will call dtor on null.
+    // We should not have two unique_ptr to same thing.
+    // In fact, unique_prt does not even have a copy ctor.
+}
+```
+
+But what if we want a bunch of pointers to the same data?
+
+# Shared Pointer 
+
+It maintains a reference `count` to counted all shared pointers that are pointing to the same heap-allocated data.  
+The memory is freed if `count` reaches 0.
+
+We should use unique and shared pointers as much as possible. 
