@@ -105,3 +105,25 @@ for (auto &p : m) {   //traverse all pairs by ascending order of key
     p.second; //is value of p
 }
 ```
+
+# Circular Include Dependency
+
+see if we have:
+```c++
+#include "B.h"
+class A {
+    B b;
+}
+-------------------
+#include "A.h"
+class B{
+    A a;
+}
+```
+This will be an infinite include, does not compile. To solve this, we need to minimize dependency between files:
+* include .h files as much as possible
+* include .h files in .cc files whenever possible
+
+# MVC(Model-View-Controller)
+
+Separate the distinct notion of the data(Mode), the presentation (View), and the control or manipulation of the data (Controller).
