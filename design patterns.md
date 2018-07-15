@@ -121,7 +121,7 @@ class B{
 }
 ```
 This will be an infinite include, does not compile. To solve this, we need to minimize dependency between files:
-* include .h files as much as possible
+* include .h files as little as possible
 * include .h files in .cc files whenever possible
 
 # MVC(Model-View-Controller)
