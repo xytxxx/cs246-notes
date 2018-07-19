@@ -106,7 +106,6 @@ for (auto &p : m) {   //traverse all pairs by ascending order of key
 }
 ```
 
-<<<<<<< HEAD
 # Unique Pointer
 
 > **Stack Unwinding:** all allocated-stack data is cleaned up, dtors call, memory reclaimed.
@@ -163,26 +162,3 @@ There are three levels of a function f:
 1. Basic Guarantee: if exeception, 
 2. Strong Guarantee: if exeception, it can undo what it did.
 3. No-throw Guarantee
-=======
-# Circular Include Dependency
-
-see if we have:
-```c++
-#include "B.h"
-class A {
-    B b;
-}
--------------------
-#include "A.h"
-class B{
-    A a;
-}
-```
-This will be an infinite include, does not compile. To solve this, we need to minimize dependency between files:
-* include .h files as little as possible
-* include .h files in .cc files whenever possible
-
-# MVC(Model-View-Controller)
-
-Separate the distinct notion of the data(Mode), the presentation (View), and the control or manipulation of the data (Controller).
->>>>>>> 969a2abec3b38c8d4972da248d9306144c195b0b
