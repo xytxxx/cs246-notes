@@ -153,3 +153,12 @@ It maintains a reference `count` to counted all shared pointers that are pointin
 The memory is freed if `count` reaches 0.
 
 We should use unique and shared pointers as much as possible. 
+
+`auto p = make_shared<Class> (...);`
+
+
+# Exception Safety
+There are three levels of a function f:
+1. Basic Guarantee: if exeception, 
+2. Strong Guarantee: if exeception, it can undo what it did.
+3. No-throw Guarantee
